@@ -1,11 +1,15 @@
 class TwitterUser < ActiveRecord::Base
-  def self.find_or_create_from_auth(oauth)
-    twitter_user = TwitterUser.find_or_create_by(provider: oauth.provider, uid: oauth.uid)
-
-    twitter_user.name = oauth.info.name
-    twitter_user.nickname = oauth.info.nickname
-    twitter_user.token = oauth.credentials.token
-    twitter_user.token_secret = oauth.credentials.secret
+  def self.find_or_create_from_auth(auth_info)
+    if twitter_user = find_by(uid: auth_info.extra.raw_info.user_id)
+      twitter_user
+    else
+      create({name: auth_info.extra.raw_info.name,
+              nickname: auth_info.extra.raw_info.screen_name,
+              uid: auth_info.extra.raw_info.user_id,
+              token: auth_info.credentials.token,
+              token_secret: auth_info.credentials.token
+      })
+    end
   end
 
   def twitter_client
