@@ -30,6 +30,10 @@ gem 'foundation-rails'
 gem 'omniauth-instagram'
 gem 'instagram'
 
+# Add OmniAuth Twitter and Twitter
+gem 'omniauth-twitter'
+gem 'twitter'
+
 # Add Figaro
 gem 'figaro'
 
